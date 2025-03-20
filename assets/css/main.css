@@ -959,6 +959,21 @@ section,
   position: relative;
 }
 
+.cards .card-item2 {
+  background: color-mix(in srgb, var(--default-color), transparent 75%);
+  position: relative;
+  width: 100%;
+  padding: 1em;
+  height: auto;
+  border-radius: 15px;
+  display: flex; /* Añadimos flexbox al contenedor del cuadrado */
+  flex-direction: column; /* Alineamos los elementos verticalmente */
+  justify-content: center; /* Centramos verticalmente */
+  align-items: center; /* Centramos horizontalmente */
+  text-align: center; /* Centramos el texto tambien */
+  color:white;
+}
+
 .cards .card-item span {
   color: var(--accent-color);
   display: block;
