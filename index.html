@@ -27,6 +27,30 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 
+<style>
+
+
+        .wave-title {
+            display: flex;
+            justify-content: center;
+            gap: 3px; /* Espacio entre letras */
+            cursor: pointer;
+        }
+
+        .wave-title span {
+            display: inline-block;
+            font-size: 2rem;
+        }
+
+
+        @keyframes wave {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+    </style>
+
 </head>
 
 <body class="index-page">
@@ -88,7 +112,7 @@
             <img src="assets/img/features-1.png" class="img-fluid" alt="">
           </div>
           <div class="col-md-7" >
-            <h3>Únicas por su innovación</h3>
+            <h3 class="wave-title">Únicas por su innovación</h3>
             <p class="fst-italic">
               Porque están producidas con acero galvanizado lo que les otorga una alta resistencia
               Y cuando decimos alta resistencia hablamos en serio:
@@ -106,7 +130,7 @@
             <img src="assets/img/features-2.png" class="img-fluid" alt="">
           </div>
           <div class="col-md-7 order-2 order-md-1">
-            <h3>Únicas por su bajo peso estructural</h3>
+            <h3 class="wave-title">Únicas por su bajo peso estructural</h3>
 
             <p>
               Con sólo el 10% del peso de una piscina de hormigón, son ideales para terrazas
@@ -119,7 +143,7 @@
             <img src="assets/img/features-3.png" class="img-fluid" alt="">
           </div>
           <div class="col-md-7">
-            <h3>Únicas por su método de armado</h3>
+            <h3 class="wave-title">Únicas por su método de armado</h3>
             <p>Ingresa totalmente desarmada en paneles y se realiza montaje en seco en sólo 5 días.</p>
             <ul>
               <li><i class="bi bi-check"></i> <span>Por donde pasa una persona pasa una pileta Unique.</span></li>
@@ -132,7 +156,7 @@
             <img src="assets/img/features-4.jpg" class="img-fluid" alt="">
           </div>
           <div class="col-md-7 order-2 order-md-1">
-            <h3>Únicas por su innovación (sí más)</h3>
+            <h3 class="wave-title">Únicas por su innovación (sí más)</h3>
             <p class="fst-italic">
               Si hablamos de innovación, hablamos de tecnología: 
             </p>
@@ -436,6 +460,35 @@
 
   <!-- Preloader -->
   <div id="preloader"></div>
+
+  <script>
+                document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".wave-title").forEach(waveTitle => {
+                const text = waveTitle.textContent;
+                waveTitle.innerHTML = ""; // Limpia el contenido del h3
+
+                text.split("").forEach((char, index) => {
+                    let span = document.createElement("span");
+                    span.textContent = char;
+                    waveTitle.appendChild(span);
+                });
+
+                // Evento que se activa cada vez que pasas el mouse por encima
+                waveTitle.addEventListener("mouseenter", function () {
+                    waveTitle.querySelectorAll("span").forEach((span, index) => {
+                        span.style.animation = `wave 1s ease-in-out ${index * 0.1}s 1`;
+                    });
+
+                    // Después de 1s (duración de la animación), limpiamos el estilo para permitir la reactivación
+                    setTimeout(() => {
+                        waveTitle.querySelectorAll("span").forEach(span => {
+                            span.style.animation = "none";
+                        });
+                    }, 5000);
+                });
+            });
+        });
+    </script>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
