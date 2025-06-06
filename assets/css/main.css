@@ -1579,6 +1579,7 @@ section,
 }
 
 .cards .details h3 {
+  margin-top: 1em;
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 20px;
@@ -1599,8 +1600,12 @@ section,
   }
 
   .cards .nav-link.active {
-    color: var(--accent-color);
+    color: white;
     background: var(--accent-color);
+  }
+
+  .cards img{
+    display: none;
   }
 }
 
