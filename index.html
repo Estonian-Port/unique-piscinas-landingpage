@@ -27,6 +27,72 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 
+<style>
+
+/*-------------------------- Waves -----------------------------*/
+
+  .waves-container .waves {
+    display: block;
+    width: 100%;
+    height: 70px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 3;
+  }
+
+  .waves-container .wave1 use {
+    animation: move-forever1 10s linear infinite;
+    animation-delay: -2s;
+    fill: var(--default-color);
+    opacity: 0.6;
+  }
+
+  .waves-container .wave2 use {
+    animation: move-forever2 8s linear infinite;
+    animation-delay: -2s;
+    fill: var(--default-color);
+    opacity: 0.4;
+  }
+
+  .waves-container .wave3 use {
+    animation: move-forever3 6s linear infinite;
+    animation-delay: -2s;
+    fill: var(--default-color);
+  }
+
+  @keyframes move-forever1 {
+    0% {
+      transform: translate(85px, 0%);
+    }
+
+    100% {
+      transform: translate(-90px, 0%);
+    }
+  }
+
+  @keyframes move-forever2 {
+    0% {
+      transform: translate(-90px, 0%);
+    }
+
+    100% {
+      transform: translate(85px, 0%);
+    }
+  }
+
+  @keyframes move-forever3 {
+    0% {
+      transform: translate(-90px, 0%);
+    }
+
+    100% {
+      transform: translate(85px, 0%);
+    }
+  }
+  </style>
+
 </head>
 
 <body class="index-page">
@@ -492,37 +558,7 @@
   <!-- Preloader -->
   <div id="preloader"></div>
 
-  <script>
-      /*-------------------------- Letter wave effect -----------------------------*/
-
-    document.addEventListener("DOMContentLoaded", function () {
-      document.querySelectorAll(".wave-title").forEach(waveTitle => {
-          const text = waveTitle.textContent;
-          waveTitle.innerHTML = ""; // Limpia el contenido del h3
-
-          text.split("").forEach((char, index) => {
-              let span = document.createElement("span");
-              span.textContent = char;
-              waveTitle.appendChild(span);
-          });
-
-          // Evento que se activa cada vez que pasas el mouse por encima
-          waveTitle.addEventListener("mouseenter", function () {
-              waveTitle.querySelectorAll("span").forEach((span, index) => {
-                  span.style.animation = `wave 1s ease-in-out ${index * 0.1}s 1`;
-              });
-
-              // Después de 1s (duración de la animación), limpiamos el estilo para permitir la reactivación
-              setTimeout(() => {
-                  waveTitle.querySelectorAll("span").forEach(span => {
-                      span.style.animation = "none";
-                  });
-              }, 5000);
-          });
-      });
-  });
-  </script>
-
+  
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
