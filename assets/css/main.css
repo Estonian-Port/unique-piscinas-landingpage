@@ -1047,11 +1047,6 @@ section,
   margin-top: 100px;
 }
 
-@media (max-width: 640px) {
-  .features .features-item+.features-item {
-    margin-top: 40px;
-  }
-}
 
 .features .features-item h3 {
   font-weight: 700;
@@ -1081,6 +1076,17 @@ section,
 
 .features .features-item p:last-child {
   margin-bottom: 0;
+}
+
+
+@media (max-width: 992px) {
+  .features .features-item+.features-item {
+    margin-top: 40px;
+  }
+
+  .features .features-item h3 {
+      font-size: 20px;
+    }
 }
 
 /*--------------------------------------------------------------
@@ -1609,3 +1615,19 @@ section,
   }
 }
 
+.container3D canvas{
+  max-height: 20rem;
+  max-width: 33rem;
+  aspect-ratio: 1 / 1; /* mantiene cuadrado */
+  margin: 0 auto;      /* centrado horizontal */
+  border: 1px solid #ccc; /* opcional para ver el contenedor */
+  position: relative;  /* para que renderer pueda poner canvas absoluto */
+}
+
+@media (max-width: 992px) {
+  .container3D canvas{
+
+    max-height: 15rem;
+    max-width: 20rem;
+  }
+}
