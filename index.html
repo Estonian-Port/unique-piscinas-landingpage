@@ -8,6 +8,9 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
 
+  <!-- Scripts -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -291,63 +294,55 @@ section {
       </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features section">
-      <div class="container">
-         <div class="row">
-          <div class="col-lg-12 d-flex flex-column justify-content-center align-items text-center" data-aos="fade-up">
-            <h1 class="mb-5">Porque elegirnos...</h1>
-            <h5 class="mb-5">La permanente busqueda en la innovacion y el desarrollo de nuevas tecnologias de los materiales nos acercan propuestas mejoradas que dia tras dia dan muestra de su eficiencia. Esto acompañado de un diseño atractivo e ideado para satisfacer los requerimientos de los usuarios dan como resultado un producto con cuantificables cualidades, por ejemplo:</h5>
-          </div>
-          <div>
-           <ul>
-              <li>
-                 <p>Facilidad y Rapidez de montaje totalmente en seco (5 dias)</p>
-              </li>
-              <li>
-                 <p>Estructura de acero galvanizado muy resistente. </p>
-              </li>
-              <li>
-                 <p>Sin perdidas debido a que no se agrieta, ni se fisura, alargando la vida util y garantizando estanqueidad 100% </p>
-              </li>
-              <li>
-                 <p>Estructura Modular Autoportante, la cual no necesita otro tipo de soporte o contencion para sostenerse, la piscina Unique puede permanecer vacia si es necesario. </p>
-              </li>
-              <li>
-                 <p>Libre de mantenimiento, tanto la estructura como el revestimiento</p>
-              </li>
-              <li>
-                 <p>Posibilidad de Desmontar</p>
-              </li>
-              <li>
-                 <p>Posibilidad de cambiar el revestimiento interno y renovar tu piscina</p>
-              </li>
-              <li>
-                 <p>Permite la instalacion de accesorios como Cascadas, Hidromasajes, Luces, Calefaccion, en cualquier momento</p>
-              </li>
-              <li>
-                 <p>Muy Bajo peso estructural respecto de las piscinas de hormigon, alrededor de un 10%, ideal para Terrazas!</p>
-              </li>
-              <li>
-                 <p>Y ademas Ingresa totalmente desarmada, por donde pasa una persona pasa tu piscina!, otra cualidad que las hace Unicas</p>
-              </li>
-            </ul>
-          </div>
-         </div>
-      </div>
+      <!-- Features Section -->
+      <section id="features" class="features section">
+          <div class="container">
+              <div class="row align-items-start g-4">
+                  <div class="col-12 text-center" data-aos="fade-up">
+                      <h1 class="mb-5">Porque elegirnos...</h1>
+                      <h5 class="mb-5">
+                          La permanente busqueda en la innovacion y el desarrollo de nuevas tecnologias de los materiales nos acercan propuestas mejoradas que dia tras dia dan muestra de su eficiencia. Esto acompañado de un diseño atractivo e ideado para satisfacer los requerimientos de los usuarios dan como resultado un producto con cuantificables cualidades, por ejemplo:
+                      </h5>
+                  </div>
+                  <div class="col-12 col-sm-7" data-aos="fade-up">
 
-      <!-- Title -->
-      <div class="container section-title">
-        <h2>Bienvenidos a Unique</h2>
-        <p>Fábrica y venta de piscinas de acero. Sistema modular, resistente, autoportante. Sin grúas, montaje en seco.</p>
-      </div><!-- End Title -->
+                      <ul class="mb-0">
+                          <li><p>Facilidad y Rapidez de montaje totalmente en seco (5 dias)</p></li>
+                          <li><p>Estructura de acero galvanizado muy resistente.</p></li>
+                          <li><p>Sin perdidas debido a que no se agrieta, ni se fisura, alargando la vida util y garantizando estanqueidad 100%</p></li>
+                          <li><p>Estructura Modular Autoportante, la cual no necesita otro tipo de soporte o contencion; puede permanecer vacia.</p></li>
+                          <li><p>Libre de mantenimiento, tanto la estructura como el revestimiento</p></li>
+                          <li><p>Posibilidad de Desmontar</p></li>
+                          <li><p>Posibilidad de cambiar el revestimiento interno y renovar tu piscina</p></li>
+                          <li><p>Permite la instalacion de accesorios (Cascadas, Hidromasajes, Luces, Calefaccion) en cualquier momento</p></li>
+                          <li><p>Muy bajo peso estructural respecto de hormigon (~10%), ideal para Terrazas</p></li>
+                          <li><p>Ingresa totalmente desarmada; por donde pasa una persona pasa tu piscina</p></li>
+                      </ul>
+                  </div>
 
-      <div class="container">
-
-        <div class="row gy-4 align-items-center features-item">
-          <div class="col-md-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="50">
-            <div class="container3D" id="container3D"></div>
+                  <!-- Right: image -->
+                  <div class="col-12 col-sm-5" data-aos="fade-left">
+                      <img src="/assets/img/materials.jpeg" alt="Materiales"
+                           class="img-fluid rounded-3 shadow-sm w-100"
+                           style="max-height:520px;object-fit:cover;">
+                  </div>
+              </div>
           </div>
+
+          <!-- Title -->
+          <div class="container section-title">
+              <h2 class="mt-4 pt-2">Bienvenidos a Unique</h2>
+              <p>Fábrica y venta de piscinas de acero. Sistema modular, resistente, autoportante. Sin grúas, montaje en seco.</p>
+          </div><!-- End Title -->
+
+          <div class="container">
+
+          <div class="row gy-3 align-items-center features-item">
+              <div class="col-md-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="50">
+                  <model-viewer src="/model/SEBA_gltf.gltf" camera-controls auto-rotate ar
+                                exposure="0.9" environment-image="neutral"
+                                style="width:100%;height:20vh;"></model-viewer>
+              </div>
           <div class="col-md-6" >
             <h3 class="wave-title">Únicas por su innovación</h3>
             <p class="fst-italic">
@@ -488,7 +483,7 @@ section {
 <!--      </div>-->
 
         <section>
-            <div class="card-container">
+            <div class="card-container" data-aos="fade-up">
                 <div class="card">
                     <div class="inner">
                         <img src="assets/img/features-1.jpg" alt="Card Image">
@@ -525,7 +520,7 @@ section {
 
     </section><!-- /Tabs Section -->
 
-      <section id="gallery" class="gallery section">
+      <section id="gallery" class="gallery section" data-aos="fade-up">
           <h2 class="mb-3 fw-bold">Galería</h2>
 
       <div class="col" style="min-width:0;">
