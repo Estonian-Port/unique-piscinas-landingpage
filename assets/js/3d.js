@@ -2,63 +2,63 @@ import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module
 import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const MODELS = [
+    'assets/models/pileta/SEBAobj2.gltf',
+    'assets/models/cocacola/scene.gltf',
+    'assets/models/crappychair/Chair.gltf',
+];
 
-let object;
-const objToRender = 'pileta';
+function initViewer(el, src) {
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    el.appendChild(renderer.domElement);
 
-const loader = new GLTFLoader();
-loader.load(
-  `assets/models/${objToRender}/SEBAobj.glb`,
-  (gltf) => {
-    object = gltf.scene;
-    scene.add(object);
-    object.rotation.y = 4;
-    object.rotation.x = 0.2;
-  },
-  (xhr) => {
-    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-  },
-  (error) => {
-    console.error(error);
-  }
-);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+    camera.position.set(2, 1.2, 2.5);
 
-const renderer = new THREE.WebGLRenderer({ alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById("container3D").appendChild(renderer.domElement);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
 
-camera.position.z = 400;
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x333333, 1));
+    const dir = new THREE.DirectionalLight(0xffffff, 1.1);
+    dir.position.set(5, 10, 7);
+    scene.add(dir);
 
-const topLight = new THREE.DirectionalLight(0xffffff, 1);
-topLight.position.set(500, 500, 500);
-topLight.castShadow = true;
-scene.add(topLight);
+    const loader = new GLTFLoader();
+    loader.load(
+        src,
+        (gltf) => {
+            const model = gltf.scene;
+            scene.add(model);
 
-const ambientLight = new THREE.AmbientLight(0x333333, 1);
-scene.add(ambientLight);
+            // Frame model
+            const box = new THREE.Box3().setFromObject(model);
+            const size = box.getSize(new THREE.Vector3()).length();
+            const center = box.getCenter(new THREE.Vector3());
+            controls.target.copy(center);
+            camera.position.copy(center).add(new THREE.Vector3(size * 0.6, size * 0.4, size * 0.6));
+            controls.update();
+        },
+        undefined,
+        (err) => console.error('GLTF load error:', src, err)
+    );
 
-// OrbitControls para rotar con mouse
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.1;
-controls.enableZoom = false;
-controls.enablePan = false;
-controls.rotateSpeed = 0.3; // ¡ajustalo a gusto!
+    const ro = new ResizeObserver(() => {
+        const w = el.clientWidth || 300;
+        const h = el.clientHeight || 280;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+    });
+    ro.observe(el);
 
-function animate() {
-  requestAnimationFrame(animate);
-
-  controls.update(); // actualiza la cámara según interacción
-
-  renderer.render(scene, camera);
+    renderer.setAnimationLoop(() => {
+        controls.update();
+        renderer.render(scene, camera);
+    });
 }
 
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+document.querySelectorAll('.container3D').forEach((el, i) => {
+    initViewer(el, MODELS[i] || MODELS[MODELS.length - 1]);
 });
-
-animate();
