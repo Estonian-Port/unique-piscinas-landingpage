@@ -143,6 +143,71 @@ section {
     }
 }
 
+/* ---- Unique Cards (scoped, Bootstrap-safe) ---- */
+.u-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:1.25rem;
+}
+
+.u-card{
+    display:flex;
+    flex-direction:column;
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:transform .18s ease, box-shadow .18s ease;
+}
+
+.u-card:focus-within,
+.u-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 40px rgba(0,0,0,.12);
+}
+
+.u-card__media{
+    position:relative;
+    aspect-ratio:4/3;              /* keeps images consistent on all screens */
+    overflow:hidden;
+}
+
+.u-card__media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .35s ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+    .u-card:hover .u-card__media img{ transform:scale(1.05); }
+}
+
+.u-card__badge{
+    position:absolute;
+    top:.5rem; left:.5rem;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:2.25rem; height:2.25rem;
+    border-radius:999px;
+    background:#000; color:#fff;
+    font-weight:600;
+    line-height:1;
+    box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+
+.u-card__body{ padding:1rem 1rem 1.25rem; }
+.u-card__title{ margin:0 0 .35rem; font-size:1.125rem; font-weight:600; }
+.u-card__text{ margin:0; color:#495057; font-size:.95rem; line-height:1.5; }
+
+/* Optional: dark backgrounds behind the section */
+.section .u-card{ background:var(--bs-body-bg, #fff); }
+
+/* Accessibility: ensure tap targets look active on touch */
+@media (hover:none){
+    .u-card{ box-shadow:0 10px 28px rgba(0,0,0,.10); }
+}
+
 
 @media (max-width: 650px) {
     .card-container {
@@ -540,19 +605,6 @@ section {
 <!-- Tabs Section -->
     <section id="cards" class="cards section">
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2 class="mb-3">Bienvenidos a un nuevo estilo, bienvenidos a Unique!</h2>
-
-        <h5>ARMADO y COMPOSICION</h5>
-
-        
-        <div class="text-center steps-img  my-5" data-aos="zoom-out">
-          <img src="assets/img/steps.png" alt="">
-        </div>
-
-      </div><!-- End Section Title -->
-
 <!--      <div class="container mt-5 mb-3" data-aos="fade-up" data-aos-delay="100">-->
 
 <!--        <div class="row">-->
@@ -611,40 +663,56 @@ section {
 <!--        </di v>-->
 
 <!--      </div>-->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2 class="mb-3">Bienvenidos a un nuevo estilo, bienvenidos a Unique!</h2>
+                    <h5>ARMADO y COMPOSICION</h5>
+                    <div class="text-center steps-img my-5" data-aos="zoom-out">
+                        <img src="assets/img/steps.png" alt="">
+                    </div>
+                </div>
 
-        <section>
-            <div class="card-container" data-aos="fade-up">
-                <div class="card">
-                    <div class="inner">
-                        <img src="assets/img/features-1.jpg" alt="Card Image">
-                        <h2>1</h2>
-                        <div class="overlay">
-                            <h3>Estructura</h3>
-                            <p class="pa">La piscina se compone de una estructura metálica, de acero galvanizado, resistente, liviana y autoportante. Los paneles de acero conformados se ensamblan mediante buhonería entre si conformando lo que es el vaso de la piscina.</p>
-                        </div>
+                <div class="container" data-aos="fade-up">
+                    <div class="u-cards">
+                        <article class="u-card">
+                            <div class="u-card__media">
+                                <img src="assets/img/features-1.jpg" alt="Estructura">
+                                <span class="u-card__badge">1</span>
+                            </div>
+                            <div class="u-card__body">
+                                <h3 class="u-card__title">Estructura</h3>
+                                <p class="u-card__text">
+                                    La piscina se compone de una estructura metálica, de acero galvanizado, resistente, liviana y autoportante. Los paneles de acero conformados se ensamblan mediante buhonería entre si conformando lo que es el vaso de la piscina.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="u-card">
+                            <div class="u-card__media">
+                                <img src="assets/img/features-2.jpg" alt="Revestimiento Interior">
+                                <span class="u-card__badge">2</span>
+                            </div>
+                            <div class="u-card__body">
+                                <h3 class="u-card__title">Revestimiento Interior</h3>
+                                <p class="u-card__text">
+                                    El revestimiento interior se realiza con una membrana de PVC diseñada para tal fin. Se coloca mediante termofusión, cumpliendo funciones de revestimiento, estanqueidad y terminación.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="u-card">
+                            <div class="u-card__media">
+                                <img src="assets/img/features-3.jpg" alt="Revestimiento Exterior">
+                                <span class="u-card__badge">3</span>
+                            </div>
+                            <div class="u-card__body">
+                                <h3 class="u-card__title">Revestimiento Exterior</h3>
+                                <p class="u-card__text">
+                                    Ofrecemos deck en altura, montando estructura metálica y colocando tablas de WPC y/o listones atérmicos cementicios.
+                                </p>
+                            </div>
+                        </article>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="inner">
-                        <img src="assets/img/features-2.jpg" alt="Card Image">
-                        <h2>2</h2>
-                        <div class="overlay">
-                            <h3>Revestimiento Interior</h3>
-                            <p class="pa">EL revestimiento interior de las piscinas se realizan con una membrana de PVC diseñada para tal fin. Esta membrana armada se coloca en todo el interior del vaso, mediante termofusion, forrando el mismo y cumpliendo las 3 funciones de revestimiento, estanqueidad y terminación de la piscina.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="inner">
-                        <img src="assets/img/features-3.jpg" alt="Card Image">
-                        <h2>3</h2>
-                        <div class="overlay">
-                            <h3>Revestimiento Exterior</h3>
-                            <p class="pa">Una vez terminado el armado y montaje de la piscina, ofrecemos tambien el recubrimiento tipo deck en altura, montando una nueva estructura metálica y colocando tanto tablas de deck de WPC como Listones Atermicos cementicios.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
 
 

@@ -3,9 +3,9 @@ import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/js
 import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
 
 const MODELS = [
-    'assets/models/pileta/SEBAobj2.gltf',
-    'assets/models/cocacola/scene.gltf',
-    'assets/models/crappychair/Chair.gltf',
+    'assets/models/BAJO.bin',
+    'assets/models/PARCIAL.bin',
+    'assets/models/SOBRE.bin',
 ];
 
 function initViewer(el, src) {
