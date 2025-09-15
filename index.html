@@ -143,6 +143,72 @@ section {
     }
 }
 
+/* ---- Unique Cards (scoped, Bootstrap-safe) ---- */
+.u-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:1.25rem;
+}
+
+.u-card{
+    display:flex;
+    flex-direction:column;
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:transform .18s ease, box-shadow .18s ease;
+}
+
+.u-card:focus-within,
+.u-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 40px rgba(0,0,0,.12);
+}
+
+.u-card__media{
+    position:relative;
+    aspect-ratio:4/3;              /* keeps images consistent on all screens */
+    overflow:hidden;
+}
+
+.u-card__media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .35s ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+    .u-card:hover .u-card__media img{ transform:scale(1.05); }
+}
+
+.u-card__badge{
+    position:absolute;
+    top:.5rem; left:.5rem;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:2.25rem; height:2.25rem;
+    border-radius:999px;
+    background:#000; color:#fff;
+    font-weight:600;
+    line-height:1;
+    box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+
+.u-card__body{ padding:1rem 1rem 1.25rem; }
+.u-card__title{ margin:0 0 .35rem; font-size:1.125rem; font-weight:600; }
+.u-card__text{ margin:0; color:#495057; font-size:.95rem; line-height:1.5; }
+
+/* Optional: dark backgrounds behind the section */
+.section .u-card{ background:var(--bs-body-bg, #fff); }
+
+/* Accessibility: ensure tap targets look active on touch */
+@media (hover:none){
+    .u-card{ box-shadow:0 10px 28px rgba(0,0,0,.10); }
+}
+
+
 @media (max-width: 650px) {
     .card-container {
         flex-direction: column;
@@ -157,9 +223,121 @@ section {
     .card:hover {
         flex: 1 1 80vh;
     }
+
+    .container3D{
+        position: relative;
+        display: grid;              /* enables centering */
+        place-items: center;        /* centers auto-sized children */
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        min-height: var(--c3d-min);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    /* Stack all children on the same grid layer */
+    .container3D > *{
+        grid-area: 1 / 1;
+    }
+
+    /* Make the Three.js canvas fill the box */
+    .container3D > canvas{
+        width: 100% !important;
+        height: 100% !important;
+        display: block;
+    }
+
+    /* If you have overlays (e.g., .overlay), they’ll be centered by grid automatically */
+    .container3D .overlay{
+        z-index: 1;
+        padding: 8px 12px;
+    }
+
+    #gallery{
+        display: block;
+        min-height: auto;
+        padding-block: clamp(16px, 4vw, 32px);
+    }
+
+    /* Make the inner wrapper behave like a full-width container */
+    #gallery > .col{
+        width: 100%;
+        max-width: 1100px;
+        margin-inline: auto;
+        padding-inline: clamp(12px, 4vw, 24px);
+    }
+
+    /* Carousel: override inline height, use aspect-ratio for responsiveness */
+    #gallery #carouselExampleControls{ width: 100%; }
+    #gallery #carouselExampleControls .carousel-inner{
+        height: auto !important;   /* beats inline style="height:420px" */
+        aspect-ratio: 16 / 9;
+    }
+
+    /* Fallback when aspect-ratio is not supported */
+    @supports not (aspect-ratio: 16 / 9){
+        #gallery #carouselExampleControls .carousel-inner{
+            height: 56.25vw;   /* 16:9 of viewport width */
+            max-height: 420px;
+        }
+    }
+
+    /* Ensure slides and images fill and crop correctly */
+    #gallery .carousel{
+        width: min(100%, 1000px);
+        margin-inline: auto;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    /* Responsive frame so slides have real height on phones */
+    #gallery .carousel-inner{
+        height: auto !important;     /* override inline height */
+        aspect-ratio: 4 / 3;         /* taller on mobile */
+    }
+
+    /* Slides & images fill the frame */
+    #gallery .carousel-item{ height: 100%; }
+    #gallery .carousel-item img{
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* iOS/Safari fallback when aspect-ratio is missing */
+    @supports not (aspect-ratio: 1){
+        #gallery .carousel-inner{ position: relative; }
+        #gallery .carousel-inner::before{
+            content: "";
+            display: block;
+            padding-top: 75%;           /* 4:3 ratio */
+        }
+        #gallery .carousel-item,
+        #gallery .carousel-item img{
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    /* Optional: center the heading and space it */
+    #gallery > h2{
+        text-align: center;
+        margin-bottom: clamp(12px, 2.5vw, 24px);
+    }
+
 }
 
+/* ------------------------ Carousel --------------------------*/
 
+#carouselExampleControls { position: relative; overflow: hidden; width:100%; max-width:960px; margin-inline:auto; }
+#carouselExampleControls .carousel-inner { aspect-ratio: 16/9; } /* or fixed height below */
+@supports not (aspect-ratio: 16/9) {
+    #carouselExampleControls .carousel-inner { height: 420px; }
+}
+#carouselExampleControls .carousel-item { width:100%; height:100%; }
 /*-------------------------- Waves -----------------------------*/
 
   .waves-container .waves {
@@ -222,6 +400,7 @@ section {
       transform: translate(85px, 0%);
     }
   }
+
   </style>
 
 </head>
@@ -284,142 +463,147 @@ section {
       </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features section">
-      <div class="container">
-         <div class="row">
-          <div class="col-lg-12 d-flex flex-column justify-content-center align-items text-center" data-aos="fade-up">
-            <h1 class="mb-5">Porque elegirnos...</h1>
-            <h5 class="mb-5">La permanente busqueda en la innovacion y el desarrollo de nuevas tecnologias de los materiales nos acercan propuestas mejoradas que dia tras dia dan muestra de su eficiencia. Esto acompañado de un diseño atractivo e ideado para satisfacer los requerimientos de los usuarios dan como resultado un producto con cuantificables cualidades, por ejemplo:</h5>
-          </div>
-          <div>
-           <ul>
-              <li>
-                 <p>Facilidad y Rapidez de montaje totalmente en seco (5 dias)</p>
-              </li>
-              <li>
-                 <p>Estructura de acero galvanizado muy resistente. </p>
-              </li>
-              <li>
-                 <p>Sin perdidas debido a que no se agrieta, ni se fisura, alargando la vida util y garantizando estanqueidad 100% </p>
-              </li>
-              <li>
-                 <p>Estructura Modular Autoportante, la cual no necesita otro tipo de soporte o contencion para sostenerse, la piscina Unique puede permanecer vacia si es necesario. </p>
-              </li>
-              <li>
-                 <p>Libre de mantenimiento, tanto la estructura como el revestimiento</p>
-              </li>
-              <li>
-                 <p>Posibilidad de Desmontar</p>
-              </li>
-              <li>
-                 <p>Posibilidad de cambiar el revestimiento interno y renovar tu piscina</p>
-              </li>
-              <li>
-                 <p>Permite la instalacion de accesorios como Cascadas, Hidromasajes, Luces, Calefaccion, en cualquier momento</p>
-              </li>
-              <li>
-                 <p>Muy Bajo peso estructural respecto de las piscinas de hormigon, alrededor de un 10%, ideal para Terrazas!</p>
-              </li>
-              <li>
-                 <p>Y ademas Ingresa totalmente desarmada, por donde pasa una persona pasa tu piscina!, otra cualidad que las hace Unicas</p>
-              </li>
-            </ul>
-          </div>
-         </div>
-      </div>
+      <!-- Features Section -->
+      <section id="features" class="features section">
+          <div class="container">
+              <div class="row align-items-start g-4">
+                  <div class="col-12 text-center" data-aos="fade-up">
+                      <h1 class="mb-5">Porque elegirnos...</h1>
+                      <h5 class="mb-5">
+                          La permanente busqueda en la innovacion y el desarrollo de nuevas tecnologias de los materiales nos acercan propuestas mejoradas que dia tras dia dan muestra de su eficiencia. Esto acompañado de un diseño atractivo e ideado para satisfacer los requerimientos de los usuarios dan como resultado un producto con cuantificables cualidades, por ejemplo:
+                      </h5>
+                  </div>
+                  <div class="col-12 col-sm-7" data-aos="fade-up">
 
-      <!-- Title -->
-      <div class="container section-title">
-        <h2>Bienvenidos a Unique</h2>
-        <p>Fábrica y venta de piscinas de acero. Sistema modular, resistente, autoportante. Sin grúas, montaje en seco.</p>
-      </div><!-- End Title -->
+                      <ul class="mb-0">
+                          <li><p>Facilidad y Rapidez de montaje totalmente en seco (5 dias)</p></li>
+                          <li><p>Estructura de acero galvanizado muy resistente.</p></li>
+                          <li><p>Sin perdidas debido a que no se agrieta, ni se fisura, alargando la vida util y garantizando estanqueidad 100%</p></li>
+                          <li><p>Estructura Modular Autoportante, la cual no necesita otro tipo de soporte o contencion; puede permanecer vacia.</p></li>
+                          <li><p>Libre de mantenimiento, tanto la estructura como el revestimiento</p></li>
+                          <li><p>Posibilidad de Desmontar</p></li>
+                          <li><p>Posibilidad de cambiar el revestimiento interno y renovar tu piscina</p></li>
+                          <li><p>Permite la instalacion de accesorios (Cascadas, Hidromasajes, Luces, Calefaccion) en cualquier momento</p></li>
+                          <li><p>Muy bajo peso estructural respecto de hormigon (~10%), ideal para Terrazas</p></li>
+                          <li><p>Ingresa totalmente desarmada; por donde pasa una persona pasa tu piscina</p></li>
+                      </ul>
+                  </div>
 
-      <div class="container">
+                  <!-- Right: image -->
+                  <div class="col-12 col-sm-5" data-aos="fade-left">
+                      <img src="/assets/img/materials.jpeg" alt="Materiales"
+                           class="img-fluid rounded-3 shadow-sm w-100"
+                           style="max-height:520px;object-fit:cover;">
+                  </div>
+              </div>
+          </div>
 
-        <div class="row gy-4 align-items-center features-item">
-          <div class="col-md-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="50">
-            <div class="container3D" id="container3D"></div>
-          </div>
-          <div class="col-md-6" >
-            <h3 class="wave-title">Únicas por su innovación</h3>
-            <p class="fst-italic">
-              Porque están producidas con acero galvanizado lo que les otorga una alta resistencia
-              Y cuando decimos alta resistencia hablamos en serio:
-            </p>
-            <ul>
-              <li><i class="bi bi-check"></i><span>Facilidad y Rapidez de montaje totalmente en seco (5 dias).</span></li>
-              <li><i class="bi bi-check"></i> <span>Estructura de acero galvanizado muy resistente.</span></li>
-              <li><i class="bi bi-check"></i> <span>Sin perdidas debido a que no se agrieta, ni se fisura, alargando la vida util y garantizando estanqueidad 100%.</span></li>
-            </ul>
-          </div>
-        </div>
+          <!-- Title -->
+          <div class="container section-title">
+              <h2 class="mt-4 pt-2">Bienvenidos a Unique</h2>
+              <p>Fábrica y venta de piscinas de acero. Sistema modular, resistente, autoportante. Sin grúas, montaje en seco.</p>
+          </div><!-- End Title -->
 
-        <div class="row gy-4 align-items-center features-item">
-          <div class="col-md-6 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="50">
-            <img src="assets/img/features-2.jpg" class="img-fluid" alt="">
-          </div>
-          <div class="col-md-6 order-2 order-md-1">
-            <h3 class="wave-title">Únicas&nbsp;por&nbsp;su&nbsp;bajo&nbsp;peso&nbsp;estructural.</h3>
-            <p>Con sólo el 10% del peso de una piscina de hormigón, son ideales para terrazas.</p>
-            <p>Estructura Modular Autoportante, la cual no necesita otro tipo de soporte o contencion para sostenerse, la piscina Unique puede permanecer vacia si es necesario. </p>
-          </div>
-        </div>
+          <div class="container">
+              <div class="row g-4">
+                  <div class="col-12 col-md-4">
+                      <div class="container3D"></div>
+                      <div class="pt-3">
+                          <h5>Unicas por su innovacion</h5>
+                          <ul class="mb-0 small">
+                              <li>Acero galvanizado resistente</li>
+                              <li>Montaje en 5 dias</li>
+                              <li>Estanqueidad 100%</li>
+                          </ul>
+                      </div>
+                  </div>
 
-        <div class="row gy-4 align-items-center features-item">
-          <div class="col-md-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="50">
-            <img src="assets/img/features-3.jpg" class="img-fluid" alt="">
-          </div>
-          <div class="col-md-6">
-            <h3 class="wave-title">Únicas&nbsp;por&nbsp;su&nbsp;método&nbsp;de&nbsp;armado</h3>
-            <p>Ingresa totalmente desarmada en paneles y se realiza montaje en seco en sólo 5 días.</p>
-            <ul>
-              <li><i class="bi bi-check"></i> <span>Libre de mantenimiento, tanto la estructura como el revestimiento.</span></li>
+                  <div class="col-12 col-md-4">
+                      <div class="container3D"></div>
+                      <div class="pt-3">
+                          <h5>Modulo autoportante</h5>
+                          <p class="mb-0 small">Puede permanecer vacia sin soporte extra.</p>
+                      </div>
+                  </div>
 
-              <li><i class="bi bi-check"></i> <span>Posibilidad de Desmontar.</span></li>
-
-              <li><i class="bi bi-check"></i> <span>Posibilidad de cambiar el revestimiento interno y renovar tu piscina.</span></li>
-            </ul>
+                  <div class="col-12 col-md-4">
+                      <div class="container3D"></div>
+                      <div class="pt-3">
+                          <h5>Accesorios</h5>
+                          <p class="mb-0 small">Cascadas, luces, hidromasaje, calefaccion.</p>
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
 
-        <div class="row gy-4 align-items-center features-item">
-          <div class="col-md-6 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="50">
-            <img src="assets/img/features-1.jpg" class="img-fluid" alt="">
-          </div>
-          <div class="col-md-6 order-2 order-md-1">
-            <h3 class="wave-title">Únicas&nbsp;por&nbsp;su&nbsp;innovación&nbsp;(sí&nbsp;más)</h3>
-            <p class="fst-italic">
-              Permite la instalacion de accesorios como Cascadas, Hidromasajes, Luces, Calefaccion, en cualquier momento  
-            </p>
-            <p>
-              Muy Bajo peso estructural respecto de las piscinas de hormigon, alrededor de un 10%, ideal para Terrazas!
-            </p>
-            <p>
-              Y ademas Ingresa totalmente desarmada, por donde pasa una persona pasa tu piscina!, otra cualidad que las hace Unicas. 
-            </p>
-          </div>
-        </div>
+<!--          <div class="container mt-5 pt-5">-->
+<!--          <div class="row gy-3 align-items-center features-item">-->
+<!--          <div class="col-md-6" >-->
+<!--            <h3 class="wave-title">Únicas por su innovación</h3>-->
+<!--            <p class="fst-italic">-->
+<!--              Porque están producidas con acero galvanizado lo que les otorga una alta resistencia-->
+<!--              Y cuando decimos alta resistencia hablamos en serio:-->
+<!--            </p>-->
+<!--            <ul>-->
+<!--              <li><i class="bi bi-check"></i><span>Facilidad y Rapidez de montaje totalmente en seco (5 dias).</span></li>-->
+<!--              <li><i class="bi bi-check"></i> <span>Estructura de acero galvanizado muy resistente.</span></li>-->
+<!--              <li><i class="bi bi-check"></i> <span>Sin perdidas debido a que no se agrieta, ni se fisura, alargando la vida util y garantizando estanqueidad 100%.</span></li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </div>-->
 
-      </div>
+<!--        <div class="row gy-4 align-items-center features-item">-->
+<!--          <div class="col-md-6 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="50">-->
+<!--            <img src="assets/img/features-2.jpg" class="img-fluid" alt="">-->
+<!--          </div>-->
+<!--          <div class="col-md-6 order-2 order-md-1">-->
+<!--            <h3 class="wave-title">Únicas&nbsp;por&nbsp;su&nbsp;bajo&nbsp;peso&nbsp;estructural.</h3>-->
+<!--            <p>Con sólo el 10% del peso de una piscina de hormigón, son ideales para terrazas.</p>-->
+<!--            <p>Estructura Modular Autoportante, la cual no necesita otro tipo de soporte o contencion para sostenerse, la piscina Unique puede permanecer vacia si es necesario. </p>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="row gy-4 align-items-center features-item">-->
+<!--          <div class="col-md-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="50">-->
+<!--            <img src="assets/img/features-3.jpg" class="img-fluid" alt="">-->
+<!--          </div>-->
+<!--          <div class="col-md-6">-->
+<!--            <h3 class="wave-title">Únicas&nbsp;por&nbsp;su&nbsp;método&nbsp;de&nbsp;armado</h3>-->
+<!--            <p>Ingresa totalmente desarmada en paneles y se realiza montaje en seco en sólo 5 días.</p>-->
+<!--            <ul>-->
+<!--              <li><i class="bi bi-check"></i> <span>Libre de mantenimiento, tanto la estructura como el revestimiento.</span></li>-->
+
+<!--              <li><i class="bi bi-check"></i> <span>Posibilidad de Desmontar.</span></li>-->
+
+<!--              <li><i class="bi bi-check"></i> <span>Posibilidad de cambiar el revestimiento interno y renovar tu piscina.</span></li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="row gy-4 align-items-center features-item">-->
+<!--          <div class="col-md-6 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="50">-->
+<!--            <img src="assets/img/features-1.jpg" class="img-fluid" alt="">-->
+<!--          </div>-->
+<!--          <div class="col-md-6 order-2 order-md-1">-->
+<!--            <h3 class="wave-title">Únicas&nbsp;por&nbsp;su&nbsp;innovación&nbsp;(sí&nbsp;más)</h3>-->
+<!--            <p class="fst-italic">-->
+<!--              Permite la instalacion de accesorios como Cascadas, Hidromasajes, Luces, Calefaccion, en cualquier momento  -->
+<!--            </p>-->
+<!--            <p>-->
+<!--              Muy Bajo peso estructural respecto de las piscinas de hormigon, alrededor de un 10%, ideal para Terrazas!-->
+<!--            </p>-->
+<!--            <p>-->
+<!--              Y ademas Ingresa totalmente desarmada, por donde pasa una persona pasa tu piscina!, otra cualidad que las hace Unicas. -->
+<!--            </p>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--      </div>-->
     </section><!-- /Features Section -->
 
 
 <!-- Tabs Section -->
     <section id="cards" class="cards section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2 class="mb-3">Bienvenidos a un nuevo estilo, bienvenidos a Unique!</h2>
-
-        <h5>ARMADO y COMPOSICION</h5>
-
-        
-        <div class="text-center steps-img  my-5" data-aos="zoom-out">
-          <img src="assets/img/steps.png" alt="">
-        </div>
-
-      </div><!-- End Section Title -->
 
 <!--      <div class="container mt-5 mb-3" data-aos="fade-up" data-aos-delay="100">-->
 
@@ -479,106 +663,90 @@ section {
 <!--        </di v>-->
 
 <!--      </div>-->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2 class="mb-3">Bienvenidos a un nuevo estilo, bienvenidos a Unique!</h2>
+                    <h5>ARMADO y COMPOSICION</h5>
+                    <div class="text-center steps-img my-5" data-aos="zoom-out">
+                        <img src="assets/img/steps.png" alt="">
+                    </div>
+                </div>
 
-        <section>
-            <div class="card-container">
-                <div class="card">
-                    <div class="inner">
-                        <img src="assets/img/features-1.jpg" alt="Card Image">
-                        <h2>1</h2>
-                        <div class="overlay">
-                            <h3>Estructura</h3>
-                            <p class="pa">La piscina se compone de una estructura metálica, de acero galvanizado, resistente, liviana y autoportante. Los paneles de acero conformados se ensamblan mediante buhonería entre si conformando lo que es el vaso de la piscina.</p>
-                        </div>
+                <div class="container" data-aos="fade-up">
+                    <div class="u-cards">
+                        <article class="u-card">
+                            <div class="u-card__media">
+                                <img src="assets/img/features-1.jpg" alt="Estructura">
+                                <span class="u-card__badge">1</span>
+                            </div>
+                            <div class="u-card__body">
+                                <h3 class="u-card__title">Estructura</h3>
+                                <p class="u-card__text">
+                                    La piscina se compone de una estructura metálica, de acero galvanizado, resistente, liviana y autoportante. Los paneles de acero conformados se ensamblan mediante buhonería entre si conformando lo que es el vaso de la piscina.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="u-card">
+                            <div class="u-card__media">
+                                <img src="assets/img/features-2.jpg" alt="Revestimiento Interior">
+                                <span class="u-card__badge">2</span>
+                            </div>
+                            <div class="u-card__body">
+                                <h3 class="u-card__title">Revestimiento Interior</h3>
+                                <p class="u-card__text">
+                                    El revestimiento interior se realiza con una membrana de PVC diseñada para tal fin. Se coloca mediante termofusión, cumpliendo funciones de revestimiento, estanqueidad y terminación.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="u-card">
+                            <div class="u-card__media">
+                                <img src="assets/img/features-3.jpg" alt="Revestimiento Exterior">
+                                <span class="u-card__badge">3</span>
+                            </div>
+                            <div class="u-card__body">
+                                <h3 class="u-card__title">Revestimiento Exterior</h3>
+                                <p class="u-card__text">
+                                    Ofrecemos deck en altura, montando estructura metálica y colocando tablas de WPC y/o listones atérmicos cementicios.
+                                </p>
+                            </div>
+                        </article>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="inner">
-                        <img src="assets/img/features-2.jpg" alt="Card Image">
-                        <h2>2</h2>
-                        <div class="overlay">
-                            <h3>Revestimiento Interior</h3>
-                            <p class="pa">EL revestimiento interior de las piscinas se realizan con una membrana de PVC diseñada para tal fin. Esta membrana armada se coloca en todo el interior del vaso, mediante termofusion, forrando el mismo y cumpliendo las 3 funciones de revestimiento, estanqueidad y terminación de la piscina.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="inner">
-                        <img src="assets/img/features-3.jpg" alt="Card Image">
-                        <h2>3</h2>
-                        <div class="overlay">
-                            <h3>Revestimiento Exterior</h3>
-                            <p class="pa">Una vez terminado el armado y montaje de la piscina, ofrecemos tambien el recubrimiento tipo deck en altura, montando una nueva estructura metálica y colocando tanto tablas de deck de WPC como Listones Atermicos cementicios.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
 
 
     </section><!-- /Tabs Section -->
 
+      <section id="gallery" class="gallery section" data-aos="fade-up">
+          <h2 class="mb-3 fw-bold">Galería</h2>
 
+      <div class="col" style="min-width:0;">
+          <div id="carouselExampleControls" class="carousel slide overflow-hidden mx-auto" data-bs-ride="carousel" style="max-width:1000px">
+            <div class="carousel-inner" style="height:420px" id="carousel-items"></div>
 
-    <!-- 
-    <section id="gallery" class="gallery section">
+              <script>
+                  const container = document.getElementById("carousel-items");
+                  for (let i = 1; i <= 9; i++) {
+                      const item = document.createElement("div");
+                      item.className = "carousel-item h-100" + (i === 1 ? " active" : "");
+                      item.innerHTML = `<img class="d-block w-100 h-100" src="assets/img/carrousel${i}.jpeg" alt="Slide ${i}">`;
+                      container.appendChild(item);
+                  }
+              </script>
 
-    
-      <div class="container section-title mt-5">
-        <h2>Galeria</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div>
-      <div class="container-fluid" >
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+              </button>
 
-        <div class="swiper init-swiper">
-          <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "centeredSlides": true,
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              },
-              "breakpoints": {
-                "320": {
-                  "slidesPerView": 1,
-                  "spaceBetween": 0
-                },
-                "768": {
-                  "slidesPerView": 4,
-                  "spaceBetween": 30
-                },
-                "992": {
-                  "slidesPerView": 4,
-                  "spaceBetween": 30
-                },
-                "1200": {
-                  "slidesPerView": 5,
-                  "spaceBetween": 40
-                }
-              }
-            }
-          </script>
-          <div class="swiper-wrapper align-items-center">
-            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-1.png"><img src="assets/img/app-gallery/app-gallery-1.png" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-2.png"><img src="assets/img/app-gallery/app-gallery-2.png" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-3.png"><img src="assets/img/app-gallery/app-gallery-3.png" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-4.png"><img src="assets/img/app-gallery/app-gallery-4.png" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-5.png"><img src="assets/img/app-gallery/app-gallery-5.png" class="img-fluid" alt=""></a></div>
-            <div class="swiper-slide"><a class="glightbox" data-gallery="images-gallery-full" href="assets/img/app-gallery/app-gallery-4.png"><img src="assets/img/app-gallery/app-gallery-4.png" class="img-fluid" alt=""></a></div>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+              </button>
           </div>
-          <div class="swiper-pagination"></div>
-        </div>
-
-      </div>
-
-    </section>/Gallery Section -->
+          </div>
+      </section>
 
 
     <!-- Faq Section -->
