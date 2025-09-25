@@ -630,7 +630,7 @@ section,
 .section {
   color: var(--default-color);
   background-color: var(--background-color);
-  padding: 60px 0;
+  padding: 40px 0;
   scroll-margin-top: 90px;
   overflow: clip;
 }
@@ -672,7 +672,8 @@ section,
   padding: 120px 0 60px 0;
   display: flex;
   align-items: center;
-  background: url(../img/hero-bg.jpg);
+  background: url(../img/hero-bg.jpg) no-repeat center center;
+  background-size: cover;   /* escala la imagen para cubrir todo */
 }
 
 .hero:before {
@@ -959,10 +960,6 @@ section,
 # Cards Section
 --------------------------------------------------------------*/
 
-.cards .section-title {
-  padding-bottom: 20px;
-}
-
 .cards .section-title h2 {
   margin-bottom: 0px;
 }
@@ -1101,7 +1098,6 @@ section,
 }
 
 .gallery .swiper-pagination {
-  margin-top: 20px;
   position: relative;
 }
 
@@ -1550,10 +1546,6 @@ section,
 /*--------------------------------------------------------------
 # Starter Section Section
 --------------------------------------------------------------*/
-.starter-section {
-  /* Add your styles here */
-}
-
 
 .cards .nav-tabs {
   border: 0;
@@ -1615,19 +1607,443 @@ section,
   }
 }
 
+/*-------------------------- 3D Container ---------------------*/
+
+.container3D {
+  border: 2px solid #e6e6e6;       /* marco sutil */
+  border-radius: 16px;             /* esquinas suaves */
+  background: #ffffff;             /* fondo blanco */
+  padding: 12px;                   /* espacio interno */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1); /* sombra elegante */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container3D:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Si adentro hay un canvas/iframe/model-viewer */
+.container3D > * {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Make the Three.js canvas fill the box */
+.container3D > canvas{
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* If you have overlays (e.g., .overlay), they’ll be centered by grid automatically */
+.container3D .overlay{
+  z-index: 1;
+  padding: 8px 12px;
+}
+
 .container3D canvas{
-  max-height: 20rem;
   max-width: 33rem;
   aspect-ratio: 1 / 1; /* mantiene cuadrado */
   margin: 0 auto;      /* centrado horizontal */
-  border: 1px solid #ccc; /* opcional para ver el contenedor */
   position: relative;  /* para que renderer pueda poner canvas absoluto */
 }
 
 @media (max-width: 992px) {
   .container3D canvas{
-
     max-height: 15rem;
     max-width: 20rem;
   }
 }
+
+/*-------------------------- Hover Card Cntainer----------------*/
+
+@media (min-width: 992px) {
+    .hover-card-container { display: block; }
+    .u-cards { display: none !important; }
+}
+
+.hover-card-body h5 {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 2.25rem;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.hover-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.hover-card img {
+    height: 350px;
+    object-fit: cover;
+}
+
+
+.hover-card:hover {
+    transform: scale(1.05);
+}
+
+.number-circle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #007bff;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+}
+
+.hover-card:hover .number-circle {
+    opacity: 0;
+}
+
+.hover-card-body {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 20px;
+    transition: bottom 0.3s ease;
+}
+
+.hover-card:hover .hover-card-body {
+    bottom: 0;
+}
+
+/*-------------------------- Cards -----------------------------*/
+
+section {
+  min-height: 50vh;
+  display: grid;
+  place-items: center;
+}
+
+.card-container {
+  width: 85vw;
+  height: 70vh;
+  display: flex;
+  gap: 1rem;
+  border-radius: 20px;
+  padding: 10px;
+  background: transparent;
+}
+
+.card {
+  position: relative;
+  flex: 1;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  transition: flex 0.9s ease-in-out, box-shadow 0.3s;
+}
+
+.card:hover {
+  flex: 12;                      /* ocupa prácticamente todo */
+  z-index: 2;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.inner h2 {
+  position: absolute;
+  top: 2%;
+  left: 5%;
+  color: goldenrod;
+  font-family: "Open Sans", sans-serif;
+  font-size: 6rem;
+  transition: 0.5s;
+  z-index: 1;
+}
+
+.inner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s ease-in-out 0.1s;
+  z-index: 0;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;       /* centra vertical */
+  align-items: center;           /* centra horizontal */
+  text-align: center;
+  padding: 2rem;
+  background: rgba(0,0,0,0.85);
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out 0.4s;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.card:hover .overlay {
+  opacity: 1;                    /* ahora 100% visible */
+  transition: opacity 0.4s ease-in-out 0.6s;
+}
+
+.overlay h3 {
+  color: #FFD700;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.pa {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #fff;
+  max-width: 80%;
+}
+
+.card:hover .overlay h3 .pa {
+    opacity: 1;
+    transition: opacity 0.8s ease-in;
+}
+
+.card-mobile {
+  display: none;
+}
+
+.card-movement{
+  display: block;
+}
+
+@media (max-width: 950px) {
+  .card-movement {
+    display: none;
+  }
+
+  .card-mobile {
+    display: block;
+  }
+
+}
+
+/* ---- Unique Cards (scoped, Bootstrap-safe) ---- */
+
+@media (max-width: 991.98px) {
+    .u-cards { display: grid; }
+    .hover-card-container { display: none; }
+}
+
+.u-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:1.25rem;
+}
+
+.u-card{
+    display:flex;
+    flex-direction:column;
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:transform .18s ease, box-shadow .18s ease;
+}
+
+.u-card:focus-within,
+.u-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 40px rgba(0,0,0,.12);
+}
+
+.u-card__media{
+    position:relative;
+    aspect-ratio:4/3;
+    overflow:hidden;
+}
+
+.u-card__media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .35s ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+    .u-card:hover .u-card__media img{ transform:scale(1.05); }
+}
+
+.u-card__badge{
+    position:absolute;
+    top:.5rem; left:.5rem;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:2.25rem; height:2.25rem;
+    border-radius:999px;
+    background:#000; color:#fff;
+    font-weight:600;
+    line-height:1;
+    box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+
+.u-card__body{ padding:1rem 1rem 1.25rem; }
+.u-card__title{ margin:0 0 .35rem; font-size:1.125rem; font-weight:600; }
+.u-card__text{ margin:0; color:#495057; font-size:.95rem; line-height:1.5; }
+
+.section .u-card{ background:var(--bs-body-bg, #fff); }
+
+@media (hover:none){
+  .u-card{ box-shadow:0 10px 28px rgba(0,0,0,.10); }
+}
+
+@media (max-width: 650px) {
+  .card-container {
+    flex-direction: column;
+  }
+
+  .inner h2 {
+    top: -10px;
+    left: 10%;
+    font-size: 4rem;
+  }
+}
+
+/*-------------------------- Carousel ---------------------*/
+
+.carousel-container {
+  width: 85vw;
+  margin-inline: auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+/* Carousel inner */
+#carouselExampleControls .carousel-inner {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+/* Carousel images */
+#carouselExampleControls .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  object-position: bottom; /* asegura que se vea la parte inferior */
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+#carouselExampleControls .carousel-item img:hover {
+  transform: scale(1.03);
+}
+
+/* Controls */
+#carouselExampleControls .carousel-control-prev,
+#carouselExampleControls .carousel-control-next {
+  width: 5%;
+}
+
+#carouselExampleControls .carousel-control-prev-icon,
+#carouselExampleControls .carousel-control-next-icon {
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  #carouselExampleControls .carousel-inner {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 480px) {
+  #carouselExampleControls .carousel-control-prev,
+  #carouselExampleControls .carousel-control-next {
+    width: 10%;
+  }
+}
+
+/* -------------------------- Waves Animation ---------------------*/
+.waves-container .waves {
+  display: block;
+  width: 100%;
+  height: 70px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+}
+
+.waves-container .wave1 use {
+  animation: move-forever1 10s linear infinite;
+  animation-delay: -2s;
+  fill: var(--default-color);
+  opacity: 0.6;
+}
+
+.waves-container .wave2 use {
+  animation: move-forever2 8s linear infinite;
+  animation-delay: -2s;
+  fill: var(--default-color);
+  opacity: 0.4;
+}
+
+.waves-container .wave3 use {
+  animation: move-forever3 6s linear infinite;
+  animation-delay: -2s;
+  fill: var(--default-color);
+}
+
+@keyframes move-forever1 {
+  0% {
+    transform: translate(85px, 0%);
+  }
+
+  100% {
+    transform: translate(-90px, 0%);
+  }
+}
+
+@keyframes move-forever2 {
+  0% {
+    transform: translate(-90px, 0%);
+  }
+
+  100% {
+    transform: translate(85px, 0%);
+  }
+}
+
+@keyframes move-forever3 {
+  0% {
+    transform: translate(-90px, 0%);
+  }
+
+  100% {
+    transform: translate(85px, 0%);
+  }
+}
+
