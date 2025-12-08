@@ -1945,14 +1945,23 @@ section {
   aspect-ratio: 16 / 9;
 }
 
+#carouselExampleControls .carousel-item {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
 /* Carousel images */
 #carouselExampleControls .carousel-item img {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
-  object-position: bottom; /* asegura que se vea la parte inferior */
+  object-fit: contain;
+  object-position: center; /* asegura que se vea la parte inferior */
   display: block;
   transition: transform 0.5s ease;
+
+  position: relative;
+  z-index: 1;
 }
 
 #carouselExampleControls .carousel-item img:hover {
@@ -1983,6 +1992,26 @@ section {
   #carouselExampleControls .carousel-control-next {
     width: 10%;
   }
+}
+
+.blur-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* Styling the background image */
+  background-size: cover;   /* Fills the entire space */
+  background-position: center;
+
+  /* THE BLUR EFFECT */
+  filter: blur(25px) saturate(1.5) brightness(0.7); /* Adjust values to taste */
+
+  /* Cleanup */
+  transform: scale(1.1);    /* Slight zoom to hide blurred edges */
+  z-index: 0;               /* Sends it to the back */
+  pointer-events: none;     /* Lets clicks pass through to the image */
 }
 
 /* -------------------------- Waves Animation ---------------------*/
