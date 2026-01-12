@@ -673,7 +673,17 @@ section,
   display: flex;
   align-items: center;
   background: url(../img/hero-bg.jpg) no-repeat center center;
-  background-size: cover;   /* escala la imagen para cubrir todo */
+  background-size: cover;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  display: none;
 }
 
 .hero:before {
@@ -685,7 +695,6 @@ section,
 }
 
 .hero .container {
-  position: relative;
   z-index: 3;
 }
 
@@ -756,15 +765,13 @@ section,
   margin-left: 100px;
 }
 
-@media screen and (max-width: 992px) {
+@media (min-width: 992px) {
   .hero {
-    min-height: 80vh;
+    background: none; /* quitamos imagen */
   }
 
-  .hero .hero-img .phone-1,
-  .hero .hero-img .phone-2 {
-    left: 50%;
-    transform: translateX(-50%);
+  .hero-video {
+    display: block;
   }
 }
 
@@ -1954,7 +1961,7 @@ section {
 /* Carousel images */
 #carouselExampleControls .carousel-item img {
   width: 100%;
-  height: 100%;
+  height: 120%;
   object-fit: contain;
   object-position: center; /* asegura que se vea la parte inferior */
   display: block;
@@ -1985,12 +1992,16 @@ section {
   #carouselExampleControls .carousel-inner {
     aspect-ratio: 4 / 3;
   }
+  #carouselExampleControls .carousel-item img {
+    height: 100%;
+  }
 }
 
 @media (max-width: 480px) {
   #carouselExampleControls .carousel-control-prev,
   #carouselExampleControls .carousel-control-next {
     width: 10%;
+    height: 100%;
   }
 }
 
