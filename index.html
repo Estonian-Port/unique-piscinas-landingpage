@@ -586,45 +586,50 @@
   <script src="assets/js/main.js"></script>
 
   <script>
-    const contactForm = document.getElementById("contact-form");
+    const form = document.getElementById("contact-form");
+    const loading = form.querySelector(".loading");
+    const errorMsg = form.querySelector(".error-message");
+    const sentMsg = form.querySelector(".sent-message");
 
-    contactForm.addEventListener("submit", async (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const loading = contactForm.querySelector(".loading");
-      const errorMsg = contactForm.querySelector(".error-message");
-      const sentMsg = contactForm.querySelector(".sent-message");
+      loading.style.display = "block";
+      errorMsg.style.display = "none";
+      sentMsg.style.display = "none";
 
-      // Mostrar Cargando usando clases de Bootstrap/Template
-      loading.classList.add("d-block");
-      errorMsg.classList.remove("d-block");
-      sentMsg.classList.remove("d-block");
-
+      // Enviamos los datos directos, sin el envoltorio "payload"
       const data = {
-        nombre: contactForm.name.value,
-        email: contactForm.email.value,
-        consulta: `Asunto: ${contactForm.subject.value || "Sin asunto"}\n\nMensaje:\n${contactForm.message.value}`
+        nombre: form.name.value,
+        apellido: "-", 
+        email: form.email.value,
+        consulta: `Asunto: ${form.subject.value || "Sin asunto"}\n\nMensaje:\n${form.message.value}`
       };
 
       try {
-        const res = await fetch(contactForm.action, {
+        const res = await fetch(form.action, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+          headers: { 
+            "Content-Type": "application/json" 
+          },
+          body: JSON.stringify(data) // Enviamos el JSON limpio
         });
 
-        if (!res.ok) throw new Error("Error en la respuesta del servidor");
+        if (!res.ok) {
+          // Si tira 400, imprimimos qué dice el servidor para entender el rechazo
+          const errorDetail = await res.text();
+          console.error("Detalle del error 400:", errorDetail);
+          throw new Error("Error en el formato de datos (400)");
+        }
 
-        // Éxito
-        loading.classList.remove("d-block");
-        sentMsg.classList.add("d-block");
-        contactForm.reset();
+        loading.style.display = "none";
+        sentMsg.style.display = "block";
+        form.reset();
 
       } catch (err) {
-        // Error
-        loading.classList.remove("d-block");
-        errorMsg.innerText = "Error: No se pudo conectar con el servidor de correos.";
-        errorMsg.classList.add("d-block");
+        loading.style.display = "none";
+        errorMsg.innerText = "Error: " + err.message;
+        errorMsg.style.display = "block";
         console.error(err);
       }
     });
