@@ -482,9 +482,7 @@
       </div><!-- End Section Title -->
 
       <div class="container">
-
         <div class="row gy-4">
-
           <div class="col-lg-4">
             <div class="info-item d-flex">
               <i class="bi bi-geo-alt flex-shrink-0"></i>
@@ -513,7 +511,7 @@
           </div>
 
           <div class="col-lg-8">
-            <form id="contact-form" class="php-email-form">
+            <form id="contact-form" action="https://lk4ur122n4.execute-api.ap-southeast-2.amazonaws.com/" method="post" class="php-email-form">
               <div class="row gy-4">
 
                 <div class="col-md-6">
@@ -533,26 +531,18 @@
                 </div>
 
                 <div class="col-md-12 text-center">
-                  <div class="loading" style="display:none;">Cargando...</div>
-                  <div class="error-message" style="display:none;">
-                    Ocurrió un error, por favor intente de nuevo más tarde.
-                  </div>
-                  <div class="sent-message" style="display:none;">
-                    El mensaje ha sido enviado con éxito. ¡Muchas gracias!
-                  </div>
-
+                  <div class="loading">Cargando...</div>
+                  <div class="error-message">Ocurrió un error, por favor intente de nuevo más tarde.</div>
+                  <div class="sent-message">El mensaje ha sido enviado con éxito. ¡Muchas gracias!</div>
                   <button type="submit">Enviar</button>
                 </div>
 
               </div>
             </form>
           </div>
-
         </div>
-
       </div>
-
-    </section><!-- /Contact Section -->
+    </section>
 
   </main>
 
@@ -587,7 +577,6 @@
   
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
@@ -596,51 +585,50 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
-<script>
-  const form = document.getElementById("contact-form");
-  const loading = form.querySelector(".loading");
-  const errorMsg = form.querySelector(".error-message");
-  const sentMsg = form.querySelector(".sent-message");
+  <script>
+    const contactForm = document.getElementById("contact-form");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    loading.style.display = "block";
-    errorMsg.style.display = "none";
-    sentMsg.style.display = "none";
+      const loading = contactForm.querySelector(".loading");
+      const errorMsg = contactForm.querySelector(".error-message");
+      const sentMsg = contactForm.querySelector(".sent-message");
 
-    const data = {
-      nombre: form.name.value,
-      apellido: "-", // no tenés apellido en el form
-      email: form.email.value,
-      consulta: `
-Asunto: ${form.subject.value || "Sin asunto"}
+      // Mostrar Cargando usando clases de Bootstrap/Template
+      loading.classList.add("d-block");
+      errorMsg.classList.remove("d-block");
+      sentMsg.classList.remove("d-block");
 
-Mensaje:
-${form.message.value}
-      `
-    };
+      const data = {
+        nombre: contactForm.name.value,
+        email: contactForm.email.value,
+        consulta: `Asunto: ${contactForm.subject.value || "Sin asunto"}\n\nMensaje:\n${contactForm.message.value}`
+      };
 
-    try {
-      const res = await fetch("https://lk4ur122n4.execute-api.ap-southeast-2.amazonaws.com", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+      try {
+        const res = await fetch(contactForm.action, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
 
-      if (!res.ok) throw new Error("Error");
+        if (!res.ok) throw new Error("Error en la respuesta del servidor");
 
-      loading.style.display = "none";
-      sentMsg.style.display = "block";
-      form.reset();
+        // Éxito
+        loading.classList.remove("d-block");
+        sentMsg.classList.add("d-block");
+        contactForm.reset();
 
-    } catch (err) {
-      loading.style.display = "none";
-      errorMsg.style.display = "block";
-      console.error(err);
-    }
-  });
-</script>
+      } catch (err) {
+        // Error
+        loading.classList.remove("d-block");
+        errorMsg.innerText = "Error: No se pudo conectar con el servidor de correos.";
+        errorMsg.classList.add("d-block");
+        console.error(err);
+      }
+    });
+  </script>
 
 </body>
 </html>
