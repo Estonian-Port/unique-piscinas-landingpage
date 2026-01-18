@@ -217,7 +217,7 @@
             <div class="u-card__body">
               <h3 class="u-card__title">Estructura</h3>
               <p class="u-card__text">
-                La piscina se compone de una estructura metálica, de acero galvanizado, resistente, liviana y autoportante. Los paneles de acero conformados se ensamblan mediante buhonería entre si conformando lo que es el vaso de la piscina.
+                La piscina se compone de una estructura metálica, de acero galvanizado, resistente, liviana y autoportante. Los paneles de acero conformados se ensamblan mediante bulonería entre si conformando lo que es el vaso de la piscina.
               </p>
             </div>
           </article>
@@ -506,7 +506,11 @@
                   <input type="email" class="form-control" name="email" placeholder="Email" required>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-6">
+                  <input type="number" class="form-control" name="telefono" placeholder="Teléfono" required>
+                </div>
+
+                <div class="col-md-6">
                   <input type="text" class="form-control" name="subject" placeholder="Asunto">
                 </div>
 
@@ -585,7 +589,8 @@
       // Enviamos los datos directos, sin el envoltorio "payload"
       const data = {
         nombre: form.name.value,
-        apellido: "-", 
+        apellido: "-",
+        telefono: form.telefono.value,
         email: form.email.value,
         consulta: `Asunto: ${form.subject.value || "Sin asunto"}\n\nMensaje:\n${form.message.value}`
       };
